@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react'
 import './App.css'
-// import { ThemeContext } from './context/ThemeContext'
-import { PageComponent } from './components/PageComponent'
 import { TimerContext } from './context/TimerContext'
 import { TimerComponent } from './components/TimerComponent'
 import { ButtonContainer } from './components/ButtonContainer'
@@ -40,6 +38,10 @@ function App() {
 
   },[active])
 
+  useEffect(()=>{
+    updateRemaining(remainingTime)
+  },[remainingTime])
+
   // Timer Function
 
   function startTimer(){
@@ -47,7 +49,7 @@ function App() {
       setTimerFuncton(
         setInterval(()=> {
           setRemainingTime(remainingTime-=1000)
-          updateRemaining(remainingTime)
+          // updateRemaining(remainingTime)
         }, 1000)
       )
       setIsRun(!isRun)
@@ -61,12 +63,19 @@ function App() {
     }
   }
 
-  function clearTimer(){
-    // alert('CLICKED')
+  function  clearTimer(){
+    
     clearInterval(timerFunction)
-    setRemainingTime(25 * 60 * 1000)
-    updateRemaining(remainingTime)
+    if(active == "1")setRemainingTime(25 * 60 * 1000)
+     
+    if(active == "2") setRemainingTime(5 * 60 * 1000)
+    
+    
+    // setTimeout(()=>{updateRemaining(remainingTime)}, 10)
+    
+    // updateRemaining(remainingTime)
     setIsRun(false)
+    return
 }
 
 
