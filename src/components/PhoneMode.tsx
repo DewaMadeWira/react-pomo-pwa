@@ -11,6 +11,7 @@ type ModeType={
 export const Mode :FC<ModeType> = ({active,content,setActive, itemId})=>{
 
     return(
+        
         <h3 id={itemId} className={`text-3xl ${active==itemId ? "font-bold":""} text-dark-text-bg hover:-translate-y-1 transition-all cursor-pointer`} onClick={()=>setActive(itemId)}>{content}</h3>
     )
 }

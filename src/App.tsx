@@ -14,10 +14,13 @@ function App() {
   const [timerFunction, setTimerFuncton]= useState<any>()
   // Is running State
   const [isRun,setIsRun]= useState(false)
-
+  // Formatted time
   const [time, setTime]= useState('')
-
+  // Which mode is active
   const [active,setActive] = useState("1")
+  // Width state
+  const [screenSize, setScreenSize] = useState(getCurrentDimension());
+
 
   // Use Effect for mode
 
@@ -41,6 +44,26 @@ function App() {
   useEffect(()=>{
     updateRemaining(remainingTime)
   },[remainingTime])
+
+  // Use effect for Width
+
+  function getCurrentDimension(){
+    return {
+      	width: window.innerWidth,
+      	height: window.innerHeight
+    }
+  }
+  useEffect(() => {
+    const updateDimension = () => {
+      setScreenSize(getCurrentDimension())
+    }
+    window.addEventListener('resize', updateDimension);
+    
+
+    return(() => {
+        window.removeEventListener('resize', updateDimension);
+    })
+  }, [screenSize])
 
   // Timer Function
 
@@ -102,16 +125,24 @@ function App() {
   return(
     <div className='bg-white-bg w-full h-screen flex flex-col justify-around items-center'>
       <div className="">
-        <h1 className='text-5xl font-mont text-dark-text-bg font-bold'>Pomodoro Timer</h1>
+        <h1 className='text-5xl text-center font-mont text-dark-text-bg font-bold'>Pomodoro Timer</h1>
+       
       </div>
-      <div className="flex w-1/2 justify-between font-mont">
-        <Mode active={active} content='Pomodoro' itemId='1' setActive={setActive}></Mode>
-        <Mode active={active} content='Short Break' itemId='2'  setActive={setActive}></Mode>
-        <Mode active={active} content='Custom' itemId='3'  setActive={setActive}></Mode>
-      </div>
-      <TimerContext.Provider value={{time,isRun,startTimer,pauseTimer,clearTimer}}>
+      {
+          screenSize.width <= 1000 ? (
+            <></>
+          ):(
+            <div className="flex w-1/2 justify-between font-mont">
+            <Mode active={active} content='Pomodoro' itemId='1' setActive={setActive}></Mode>
+            <Mode active={active} content='Short Break' itemId='2'  setActive={setActive}></Mode>
+            <Mode active={active} content='Custom' itemId='3'  setActive={setActive}></Mode>
+          </div>
+          )
+        }
+      
+      <TimerContext.Provider value={{time,isRun,startTimer,pauseTimer,clearTimer,setActive,active}}>
       <TimerComponent></TimerComponent>
-      <ButtonContainer></ButtonContainer>
+      <ButtonContainer screenWidth={screenSize.width}></ButtonContainer>
       </TimerContext.Provider>
     </div>
   )
