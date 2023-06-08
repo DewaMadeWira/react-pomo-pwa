@@ -144,6 +144,9 @@ function App() {
       <TimerComponent></TimerComponent>
       <ButtonContainer screenWidth={screenSize.width}></ButtonContainer>
       </TimerContext.Provider>
+      <footer className='font-hind text-lg hover:-translate-y-2 transition-all'>
+      <a  href="https://www.flaticon.com/free-icons/stopwatch" title="stopwatch icons">Stopwatch icons created by <span className='font-bold'>monkik - Flaticon</span></a>
+      </footer>
     </div>
   )
 
