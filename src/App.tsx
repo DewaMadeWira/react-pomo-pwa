@@ -4,6 +4,7 @@ import { TimerContext } from './context/TimerContext'
 import { TimerComponent } from './components/TimerComponent'
 import { ButtonContainer } from './components/ButtonContainer'
 import { Mode } from './components/Mode'
+import { ThemeContext } from './context/ThemeContext'
 
 function App() {
   // Milisecond to minutes
@@ -20,9 +21,17 @@ function App() {
   const [active,setActive] = useState("1")
   // Width state
   const [screenSize, setScreenSize] = useState(getCurrentDimension());
+  // Dark Mode State
+  type themeType={
+    theme:"dark"|"light"
+  }
+  const [theme, setTheme] = useState<themeType>({theme:'dark'})
+
+  // ms Time
+  // const [msTime,setMsTime] = useState(0)
 
 
-  // Use Effect for mode
+  // === Use Effect for mode ===
 
   useEffect(()=>{
     let time = 0
@@ -37,6 +46,12 @@ function App() {
       setRemainingTime(time)
       updateRemaining(time)
     }
+    // else if(active=="3"){
+    //   console.log("parent :" +time)
+    //   setRemainingTime(time)
+    //   updateRemaining(time)
+    // }
+    
     
 
   },[active])
@@ -45,7 +60,7 @@ function App() {
     updateRemaining(remainingTime)
   },[remainingTime])
 
-  // Use effect for Width
+  // === Use effect for Width ===
 
   function getCurrentDimension(){
     return {
@@ -65,7 +80,7 @@ function App() {
     })
   }, [screenSize])
 
-  // Timer Function
+  // === Timer Function ===
 
   function startTimer(){
     if(isRun===false){
@@ -120,34 +135,56 @@ function App() {
     setTime(`${minutes}:${seconds}`)  
   }
 
-  
+  function changeMode(){
+    if(theme.theme== "dark"){
+      setTheme({theme:'light'})
+    }
+    else{
+      setTheme({theme:'dark'})
+    }
+    
+    // alert(theme.theme)
+  }
+
+  // function timeInput (input:number){
+  //   alert(input * 60 * 1000)
+  //   // setMsTime(i)
+  // }
 
   return(
-    <div className='bg-white-bg w-full h-screen flex flex-col justify-around items-center'>
-      <div className="">
-        <h1 className='text-5xl text-center font-mont text-dark-text-bg font-bold'>Pomodoro Timer</h1>
-       
+    <ThemeContext.Provider value={theme}>
+    <div className={`${theme.theme == 'light' ? 'bg-white-bg text-dark-text-bg' : 'bg-dark-text-bg text-white-bg' } w-full h-screen transition-all`}>
+      <div className="h-[10vh] flex justify-end px-7 pt-2">
+        <img onClick={()=>{changeMode()}} src="public/dark-theme-icon.svg"className='w-12 hover:cursor-pointer hover:-translate-y-1 transition-all' alt="dark mode button"/>
       </div>
-      {
-          screenSize.width <= 1000 ? (
-            <></>
-          ):(
-            <div className="flex w-1/2 justify-between font-mont">
-            <Mode active={active} content='Pomodoro' itemId='1' setActive={setActive}></Mode>
-            <Mode active={active} content='Short Break' itemId='2'  setActive={setActive}></Mode>
-            <Mode active={active} content='Custom' itemId='3'  setActive={setActive}></Mode>
-          </div>
-          )
-        }
+      <div className='flex px-5 md:px-0 flex-col justify-around items-center h-[90vh]'>
       
-      <TimerContext.Provider value={{time,isRun,startTimer,pauseTimer,clearTimer,setActive,active}}>
-      <TimerComponent></TimerComponent>
-      <ButtonContainer screenWidth={screenSize.width}></ButtonContainer>
-      </TimerContext.Provider>
-      <footer className='font-hind text-lg hover:-translate-y-2 transition-all'>
-      <a  href="https://www.flaticon.com/free-icons/stopwatch" title="stopwatch icons">Stopwatch icons created by <span className='font-bold'>monkik - Flaticon</span></a>
-      </footer>
+        <div className="">
+          <h1 className='text-5xl text-center font-mont text-inherit font-bold'>Pomodoro Timer</h1>
+      
+        </div>
+        {
+            screenSize.width <= 1000 ? (
+              <></>
+            ):(
+              <div className="flex w-1/2 justify-between font-mont">
+              <Mode active={active} content='Pomodoro' itemId='1' setActive={setActive}></Mode>
+              <Mode active={active} content='Short Break' itemId='2'  setActive={setActive}></Mode>
+              <Mode active={active} content='Custom' itemId='3'  setActive={setActive}></Mode>
+            </div>
+            )
+          }
+      
+        <TimerContext.Provider value={{time,isRun,startTimer,pauseTimer,clearTimer,setActive,active}}>
+        <TimerComponent callbackTimer={setRemainingTime}></TimerComponent>
+        <ButtonContainer screenWidth={screenSize.width}></ButtonContainer>
+        </TimerContext.Provider>
+        <footer className='font-hind text-lg hover:-translate-y-2 transition-all '>
+        <a  href="https://www.flaticon.com/free-icons/stopwatch" title="stopwatch icons">Stopwatch icons created by <span className='font-bold'>monkik - Flaticon</span></a>
+        </footer>
+      </div>
     </div>
+    </ThemeContext.Provider>
   )
 
   // return (

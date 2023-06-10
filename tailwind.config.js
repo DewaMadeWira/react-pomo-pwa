@@ -9,6 +9,7 @@ export default {
       'white-bg':'#F8F4F9',
       'dark-text-bg':'#2C302E',
       'yellow-btn':'#E3D433',
+      'dark-btn':'#3D3D3D'
    
 
 
