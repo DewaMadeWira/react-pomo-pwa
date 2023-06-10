@@ -1,7 +1,7 @@
 // import { useContext } from "react"
 // import { ThemeContext } from "../context/ThemeContext"
 
-import { useContext, useEffect, useState } from "react"
+import { useContext } from "react"
 import { TimerContext } from "../context/TimerContext"
 import { FC } from 'react';
 

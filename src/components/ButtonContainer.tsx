@@ -14,7 +14,7 @@ type ButtonType={
 
 export const ButtonContainer :FC <ButtonType>= ({screenWidth})=>{
     const {theme} = useContext(ThemeContext)
-    const {startTimer,pauseTimer,clearTimer,isRun,active,setActive}= useContext(TimerContext)
+    const {startTimer,pauseTimer,clearTimer,isRun,setActive}= useContext(TimerContext)
 
     return(
      <>

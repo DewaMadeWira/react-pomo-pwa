@@ -155,7 +155,7 @@ function App() {
     <ThemeContext.Provider value={theme}>
     <div className={`${theme.theme == 'light' ? 'bg-white-bg text-dark-text-bg' : 'bg-dark-text-bg text-white-bg' } w-full h-screen transition-all`}>
       <div className="h-[10vh] flex justify-end px-7 pt-2">
-        <img onClick={()=>{changeMode()}} src="public/dark-theme-icon.svg"className='w-12 hover:cursor-pointer hover:-translate-y-1 transition-all' alt="dark mode button"/>
+        <img onClick={()=>{changeMode()}} src="/dark-theme-icon.svg"className='w-12 hover:cursor-pointer hover:-translate-y-1 transition-all' alt="dark mode button"/>
       </div>
       <div className='flex px-5 md:px-0 flex-col justify-around items-center h-[90vh]'>
       
