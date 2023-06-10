@@ -19,7 +19,8 @@ export const TimerComponent : FC <TimerComponentType> = ({callbackTimer})=>{
     useEffect(()=>{
         if(input=='') return
         console.log("child"+parseInt(input) * 60 * 1000)
-        callbackTimer(parseInt(input) * 60 * 1000)
+        if(active =="3") callbackTimer(parseInt(input) * 60 * 1000)
+        
     },[isRun,input])
 
         
